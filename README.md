@@ -46,7 +46,12 @@ services:
      image: my-web-swervice-image
 
 ```
-my-web-service should listen on port 8080 (do not publish port to outside).
+my-web-service should listen on same port as set in nginx vh proxy_pass
+``` 
+proxy_pass        http://my-web-service:8080; 
+```
+(do not publish port to outside).
+
 Mount nginx config(s) to path /etc/nginx/conf.d/configs inside container.
 Its nessesery to mount the directory /etc/nginx/ssl as persistent volume.
 
