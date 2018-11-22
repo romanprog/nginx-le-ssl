@@ -21,24 +21,17 @@ while true; do
   for DM in ${DOM_ARR[@]}; do
     get_ssl ${DM}
   done
-# load configs one by one in alphabetical order.
-  while read FILE_NAME
-      if [ -z "${FIRST_RUN}" ]; then 
-         cp /etc/nginx/conf.d/configs/${FILE_NAME} /etc/nginx/conf.d/
-         FIRST_RUN="false"
-      fi
-      while true; do
-         nginx -t
-         OUT=$?
-         [ ${OUT} -eq 0 ] && break
-         sleep 15
-      done
-      nginx -s reload
-  done < <(ls /etc/nginx/conf.d/configs/ | sort -s )
+  if [ -z "${FIRST_RUN}" ]; then 
+    cp /etc/nginx/conf.d/configs/* /etc/nginx/conf.d/
+    FIRST_RUN="false"
+  fi
+  # [ ${ACME_ERR} -eq 0 ] && 
+  while true; do
+     nginx -t
+     OUT=$?
+     [ ${OUT} -eq 0 ] && break
+     sleep 10
+  done
+  nginx -s reload
   sleep 3600
 done
-
-while read FILE_NAME
-do
-
-done < <(ls | sort -s )
