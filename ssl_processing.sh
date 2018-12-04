@@ -25,7 +25,6 @@ while true; do
   while read FILE_NAME
       if [ -z "${FIRST_RUN}" ]; then 
          cp /etc/nginx/conf.d/configs/${FILE_NAME} /etc/nginx/conf.d/
-         FIRST_RUN="false"
       fi
       while true; do
          nginx -t
@@ -35,6 +34,7 @@ while true; do
       done
       nginx -s reload
   done < <(ls /etc/nginx/conf.d/configs/ | sort -s )
+  FIRST_RUN="false"
   sleep 3600
 done
 
