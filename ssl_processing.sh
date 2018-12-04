@@ -23,9 +23,11 @@ while true; do
   done
 # load configs one by one in alphabetical order.
   while read FILE_NAME; do
-      if [ -z "${FIRST_RUN}" ]; then 
+      if [ -z "${FIRST_RUN}" ]; then
+         echo "Copying file ${FILE_NAME}"
          cp /etc/nginx/conf.d/configs/${FILE_NAME} /etc/nginx/conf.d/
       fi
+      echo "Checking file ${FILE_NAME}"
       while true; do
          nginx -t
          OUT=$?
