@@ -22,7 +22,7 @@ while true; do
     get_ssl ${DM}
   done
 # load configs one by one in alphabetical order.
-  while read FILE_NAME
+  while read FILE_NAME; do
       if [ -z "${FIRST_RUN}" ]; then 
          cp /etc/nginx/conf.d/configs/${FILE_NAME} /etc/nginx/conf.d/
       fi
@@ -34,6 +34,7 @@ while true; do
       done
       nginx -s reload
   done < <(ls /etc/nginx/conf.d/configs/ | sort -s )
+
   FIRST_RUN="false"
   sleep 3600
 done
