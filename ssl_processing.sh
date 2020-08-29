@@ -6,7 +6,7 @@ function get_ssl ()
   mkdir -p ${AcmeHomeDir}
   WebRootDir="/var/www/acme/"
 
-  /root/.acme.sh/acme.sh --debug --issue --home ${AcmeHomeDir} -w ${WebRootDir} ${Domain}
+  /root/.acme.sh/acme.sh --debug --issue --home ${AcmeHomeDir} -w ${WebRootDir} -d ${Domain}
   
   DomainSSLDir="${SSL_DIR}/${Domain}/"
   mkdir -p "${DomainSSLDir}"
