@@ -1,16 +1,19 @@
 #!/bin/bash
 function get_ssl ()
 {
- DOMAIN="$1"
- DOMAIN_SSL_DIR="${SSL_DIR}/${DOMAIN}/"
- mkdir -p "${DOMAIN_SSL_DIR}/acme"
- ACME_CLI_ARGS="-nNv -C /var/www/acme/.well-known/acme-challenge/ \
- -f ${DOMAIN_SSL_DIR}/acme/account.key \
- -k ${DOMAIN_SSL_DIR}/private.key \
- -c ${DOMAIN_SSL_DIR} \
- ${DOMAIN}"
- acme-client ${ACME_CLI_ARGS}
- ACME_ERR=$?
+  Domain="$1"
+  AcmeHomeDir="${SSL_DIR}/acme/"
+  mkdir -p ${AcmeHomeDir}
+  WebRootDir="/var/www/acme/"
+
+  /root/.acme.sh/acme.sh --debug --issue --home ${AcmeHomeDir} -w ${WebRootDir} ${Domain}
+  
+  DomainSSLDir="${SSL_DIR}/${Domain}/"
+  mkdir -p "${DomainSSLDir}"
+  /root/.acme.sh/acme.sh --install-cert --home ${AcmeHomeDir} ${Domain} --key-file ${DomainSSLDir}/private.key --fullchain-file ${DomainSSLDir}/fullchain.pem
+
+
+  ACME_ERR=$?
 }
 
 SSL_DIR="/etc/nginx/ssl"
