@@ -10,7 +10,7 @@ function get_ssl ()
   
   DomainSSLDir="${SSL_DIR}/${Domain}/"
   mkdir -p "${DomainSSLDir}"
-  /root/.acme.sh/acme.sh --install-cert --home ${AcmeHomeDir} ${Domain} --key-file ${DomainSSLDir}/private.key --fullchain-file ${DomainSSLDir}/fullchain.pem
+  /root/.acme.sh/acme.sh --install-cert --home ${AcmeHomeDir} -d ${Domain} --key-file ${DomainSSLDir}/private.key --fullchain-file ${DomainSSLDir}/fullchain.pem
 
 
   ACME_ERR=$?
@@ -19,7 +19,7 @@ function get_ssl ()
 SSL_DIR="/etc/nginx/ssl"
 IFS=',' read -r -a DOM_ARR <<< "${DOMAINS_LIST}"
 ACME_ERR=0
-sleep $(( RANDOM % 10 ))
+sleep $(( RANDOM % 20 ))
 while true; do
   for DM in ${DOM_ARR[@]}; do
     get_ssl ${DM}
